@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SoulAgentOS</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1 id="appTitle">SoulAgentOS</h1>
+      <p id="appSubtitle">Local Flask agent shell: Soul.md + KG memory + self-goals + user goals + goal pulse + skills + todo queue + LLM key.</p>
+    </div>
+    <div class="status" id="status">loading…</div>
+  </header>
+
+  <main class="grid">
+    <section class="panel hero">
+      <h2>Run Agent</h2>
+      <label>Goal / mission</label>
+      <textarea id="goal" class="big" placeholder="Example: Build a project plan, save the key decisions to KG memory, and create todos."></textarea>
+
+      <details class="settings" open>
+        <summary>Identity and model settings</summary>
+
+        <div class="identity-box">
+          <h3>Shareable identity</h3>
+          <p class="muted">Each person can enter their own name and rename the agent. These values now autosave and are included in every model prompt.</p>
+          <div class="settings-grid">
+            <label>Your display name
+              <input id="user_name" placeholder="Example: Adam" />
+            </label>
+            <label>Agent name
+              <input id="agent_name" placeholder="Example: SoulAgent" />
+            </label>
+          </div>
+          <div class="actions compact"><button id="saveProfileBtn" class="secondary">Save Identity Now</button></div>
+        </div>
+
+        <div class="settings-grid">
+          <label>Provider
+            <select id="provider">
+              <option value="openai">OpenAI Responses API</option>
+              <option value="anthropic">Anthropic Claude Messages API</option>
+              <option value="ollama">Ollama local</option>
+              <option value="openai_compatible">OpenAI-compatible / local</option>
+            </select>
+          </label>
+          <label>Model preset
+            <select id="model_preset"></select>
+          </label>
+          <label>Model <span class="muted">editable</span>
+            <input id="model" value="gpt-5.5" />
+          </label>
+          <label>Base URL <span class="muted">optional</span>
+            <input id="base_url" placeholder="http://localhost:11434 or http://localhost:8000/v1" />
+          </label>
+          <label>API key <span class="muted">transient unless saved</span>
+            <input id="api_key" type="password" placeholder="paste key here" />
+          </label>
+          <label>Max steps
+            <input id="max_steps" type="number" min="1" max="20" value="6" />
+          </label>
+          <label>Temperature
+            <input id="temperature" type="number" step="0.1" min="0" max="1.5" value="0.2" />
+          </label>
+        </div>
+        <label class="check"><input id="save_key" type="checkbox" /> Save key and selected model into .env.local on this machine</label>
+      </details>
+
+      <div class="actions">
+        <button id="runBtn">Run With Live Trace</button>
+        <button id="refreshBtn" class="secondary">Refresh State</button>
+        <button id="biopsyBtn" class="danger">Biopsy</button>
+        <button id="copyBiopsyBtn" class="secondary">Copy Biopsy</button>
+      </div>
+      <p class="muted biopsy-warning">Biopsy exports the prompts, raw model output, parsed JSON, tool calls, tool results, Soul.md, KG, goals, heartbeat history, todos, and notes. It does not export the API key field.</p>
+
+      <div class="heartbeat-box">
+        <h3>Heartbeat / Long-Horizon Mode</h3>
+        <p class="muted">Runs a visible goal pulse while this browser tab is open. Work mode advances the top user goal/todo first; agent self-goals stay in the background until user work is clear.</p>
+        <div class="settings-grid">
+          <label>Heartbeat mode
+            <select id="heartbeatMode">
+              <option value="work">work: advance user goal</option>
+              <option value="advance">advance next todo</option>
+              <option value="cleanup">cleanup memory/goals/todos</option>
+              <option value="reflect">reflect only</option>
+            </select>
+          </label>
+          <label>Interval minutes
+            <input id="heartbeatInterval" type="number" min="1" max="240" value="15" />
+          </label>
+          <label>Pulse max steps
+            <input id="heartbeatMaxSteps" type="number" min="1" max="12" value="6" />
+          </label>
+          <label>Optional note for beats
+            <input id="heartbeatNote" placeholder="Example: focus on the app project" />
+          </label>
+        </div>
+        <div class="actions">
+          <button id="heartbeatOnceBtn" class="secondary">Pulse Once Now</button>
+          <button id="heartbeatStartBtn" class="secondary">Start Pulse</button>
+          <button id="heartbeatStopBtn" class="secondary">Stop Pulse</button>
+        </div>
+        <div id="heartbeatStatus" class="heartbeat-status">goal pulse idle</div>
+      </div>
+
+      <h3>Final / Agent Output</h3>
+      <pre id="final" class="output main-output">No run yet.</pre>
+
+      <div class="lab-bench">
+        <h3>Program Lab Bench</h3>
+        <p class="muted">This is the clear run screen: select a workspace Python file, run it, inspect stdout/stderr, then auto-fix bugs with the agent loop.</p>
+        <div class="lab-controls">
+          <select id="workspaceFile"></select>
+          <button id="refreshWorkspaceBtn" class="secondary">Refresh Files</button>
+          <button id="loadFileBtn" class="secondary">Load</button>
+          <button id="saveFileBtn" class="secondary">Save File</button>
+          <button id="runProgramBtn">Run Program</button>
+          <button id="autoFixBtn" class="danger">Run + Auto-Fix</button>
+          <button id="clearProgramOutputBtn" class="secondary">Clear Output</button>
+        </div>
+        <label>Code editor / file viewer</label>
+        <textarea id="labCode" class="code-editor" placeholder="Load or create a workspace file here. Example: pi_primes.py"></textarea>
+        <h3>Program Output</h3>
+        <pre id="programOutput" class="output program-output">No program run yet.</pre>
+      </div>
+
+      <h3>Visible Run Log</h3>
+      <div id="liveSteps" class="live-steps"><p class="muted">Each model request, raw response, parsed action, tool call, and tool result will appear here while the agent runs.</p></div>
+
+      <h3>Raw Event Trace</h3>
+      <pre id="trace" class="output trace">Tool calls and JSON steps will appear here.</pre>
+    </section>
+
+    <section class="panel">
+      <h2>Soul.md</h2>
+      <textarea id="soul" class="soul"></textarea>
+      <div class="actions"><button id="saveSoulBtn" class="secondary">Save Soul.md</button></div>
+    </section>
+
+    <section class="panel wide">
+      <h2>Goals</h2>
+      <p class="muted">Strategic goals are separate from concrete todos. User goals outrank agent goals. Shared goals are negotiated overlap.</p>
+      <div class="goal-form">
+        <select id="goalOwner"><option value="user">user</option><option value="agent">agent</option><option value="shared">shared</option></select>
+        <select id="goalHorizon"><option value="short">short</option><option value="long">long</option></select>
+        <select id="goalPriority"><option value="normal">normal</option><option value="high">high</option><option value="low">low</option></select>
+        <input id="goalTitle" placeholder="goal title" />
+        <input id="goalBody" placeholder="why this matters / alignment note" />
+        <button id="addGoalBtn" class="secondary">Add Goal</button>
+      </div>
+      <div id="goals" class="goal-grid"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Todo Queue</h2>
+      <div class="mini-form">
+        <input id="todoTask" placeholder="new todo" />
+        <select id="todoPriority"><option>normal</option><option>high</option><option>low</option></select>
+        <button id="addTodoBtn" class="secondary">Add</button>
+      </div>
+      <div id="todos" class="list"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Knowledge Graph</h2>
+      <div class="triple-form">
+        <input id="kgS" placeholder="subject" />
+        <input id="kgP" placeholder="predicate" />
+        <input id="kgO" placeholder="object" />
+        <button id="addKgBtn" class="secondary">Add Triple</button>
+      </div>
+      <input id="search" placeholder="search memory/KG" />
+      <div id="kg" class="list kg"></div>
+    </section>
+
+
+
+    <section class="panel wide kg-v2-panel">
+      <h2>Typed KG / Fovea</h2>
+      <p class="muted">Mature KG layer inspired by the Diplomacy substrate: typed nodes, weighted multi-channel edges, evidence, HP, lifecycle, and a narrow fovea into prompts.</p>
+      <div class="kg-v2-toolbar">
+        <input id="kgV2Search" placeholder="retrieve KG nodes / fovea query" />
+        <select id="kgV2Kind"><option value="">any kind</option><option>fact</option><option>belief</option><option>prediction</option><option>commitment</option><option>intent</option><option>artifact</option><option>skill</option><option>goal</option><option>note</option><option>user_preference</option><option>observation</option><option>hypothesis</option></select>
+        <select id="kgV2Status"><option value="">any status</option><option>proto</option><option>active</option><option>retired</option><option>archived</option><option>rejected</option></select>
+        <button id="kgV2RetrieveBtn" class="secondary">Retrieve / Foveate</button>
+        <button id="kgV2LifecycleBtn" class="secondary">Lifecycle Tick</button>
+        <button id="kgV2ImportBtn" class="secondary">Import Legacy Triples</button>
+      </div>
+      <div class="kg-node-form">
+        <select id="kgNodeKind"><option>fact</option><option>belief</option><option>prediction</option><option>commitment</option><option>intent</option><option>artifact</option><option>skill</option><option>goal</option><option>note</option><option>user_preference</option><option>observation</option><option>hypothesis</option></select>
+        <select id="kgNodeStatus"><option>proto</option><option>active</option><option>retired</option></select>
+        <input id="kgNodeTitle" placeholder="node title / head" />
+        <input id="kgNodeTags" placeholder="tags" />
+        <textarea id="kgNodeBody" placeholder="node body / evidence-aware summary"></textarea>
+        <button id="kgNodeAddBtn" class="secondary">Add Typed Node</button>
+      </div>
+      <div class="kg-edge-form">
+        <input id="kgEdgeSrc" placeholder="source node id" />
+        <select id="kgEdgeChannel"><option>semantic</option><option>supports</option><option>contradicts</option><option>evidence_for</option><option>evidence_against</option><option>used_together</option><option>implements</option><option>depends_on</option><option>blocks</option><option>related</option></select>
+        <input id="kgEdgeDst" placeholder="target node id" />
+        <input id="kgEdgeWeight" type="number" step="0.1" value="1.0" />
+        <button id="kgEdgeAddBtn" class="secondary">Add Edge</button>
+      </div>
+      <div class="kg-evidence-form">
+        <input id="kgEvidenceNode" placeholder="node id" />
+        <select id="kgEvidencePolarity"><option value="for">evidence for</option><option value="against">evidence against</option></select>
+        <input id="kgEvidenceText" placeholder="evidence text / run result / source note" />
+        <button id="kgEvidenceAddBtn" class="secondary">Add Evidence</button>
+      </div>
+      <div id="kgV2Summary" class="kg-v2-summary"></div>
+      <div id="kgV2" class="kg-v2-grid"></div>
+    </section>
+
+    <section class="panel wide">
+      <h2>Skill Finder / Patterns</h2>
+      <p class="muted">Reusable local work patterns. The agent now gets a skill fovea before acting and after errors. These are patterns, not new external powers.</p>
+      <div id="skillCards" class="skills"></div>
+      <h3>Callable Tools</h3>
+      <p class="muted">These are the actual tools the model can call. No shell skill is included.</p>
+      <div id="skills" class="skills"></div>
+    </section>
+
+    <section class="panel wide">
+      <h2>Recent Runs / Notes</h2>
+      <div id="runs" class="list"></div>
+      <h3>Notes</h3>
+      <div id="notes" class="list"></div>
+    </section>
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

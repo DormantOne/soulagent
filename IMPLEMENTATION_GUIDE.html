@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SoulAgentOS Implementation Guide</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --panel: #111827;
+      --panel2: #182235;
+      --ink: #e5e7eb;
+      --muted: #a7b0c0;
+      --line: #334155;
+      --accent: #38bdf8;
+      --accent2: #a78bfa;
+      --good: #34d399;
+      --warn: #fbbf24;
+      --bad: #fb7185;
+      --code: #07111f;
+      --paper: #f8fafc;
+      --paperInk: #111827;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top left, #1e293b, var(--bg) 46%, #050816);
+      color: var(--ink);
+      line-height: 1.55;
+    }
+    a { color: var(--accent); }
+    .wrap { max-width: 1160px; margin: 0 auto; padding: 32px 20px 80px; }
+    header {
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      background: linear-gradient(135deg, rgba(17,24,39,.95), rgba(30,41,59,.88));
+      border-radius: 28px;
+      padding: 34px;
+      box-shadow: 0 24px 90px rgba(0,0,0,.35);
+    }
+    .eyebrow { color: var(--accent); font-weight: 800; letter-spacing: .12em; text-transform: uppercase; font-size: 12px; }
+    h1 { margin: 8px 0 12px; font-size: clamp(34px, 6vw, 64px); line-height: .98; }
+    h2 { margin: 0 0 14px; font-size: 28px; }
+    h3 { margin: 22px 0 10px; font-size: 20px; }
+    h4 { margin: 18px 0 8px; }
+    p { margin: 0 0 14px; }
+    .lede { color: #dbeafe; max-width: 860px; font-size: 19px; }
+    .tagbar { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 22px; }
+    .tag {
+      border: 1px solid rgba(148, 163, 184, .35);
+      background: rgba(15,23,42,.55);
+      padding: 8px 12px;
+      border-radius: 999px;
+      color: #dbeafe;
+      font-size: 13px;
+      font-weight: 700;
+    }
+    nav {
+      margin: 22px 0 28px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 10px;
+    }
+    nav a {
+      display: block;
+      text-decoration: none;
+      color: var(--ink);
+      padding: 12px 14px;
+      border: 1px solid rgba(148,163,184,.25);
+      border-radius: 14px;
+      background: rgba(15,23,42,.65);
+    }
+    nav a:hover { border-color: var(--accent); }
+    section {
+      margin: 24px 0;
+      border: 1px solid rgba(148, 163, 184, 0.22);
+      background: rgba(17, 24, 39, 0.86);
+      border-radius: 24px;
+      padding: 26px;
+      box-shadow: 0 14px 48px rgba(0,0,0,.22);
+    }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+    .card {
+      border: 1px solid rgba(148, 163, 184, .22);
+      background: rgba(24, 34, 53, .72);
+      border-radius: 18px;
+      padding: 18px;
+    }
+    .card strong { color: #fff; }
+    .num {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 30px; height: 30px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #06111f; font-weight: 900; margin-right: 8px;
+    }
+    .warn { border-left: 5px solid var(--warn); }
+    .good { border-left: 5px solid var(--good); }
+    .bad { border-left: 5px solid var(--bad); }
+    .muted { color: var(--muted); }
+    ul, ol { margin-top: 8px; padding-left: 22px; }
+    li { margin: 6px 0; }
+    code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; }
+    pre {
+      background: var(--code);
+      color: #dbeafe;
+      border: 1px solid rgba(148,163,184,.25);
+      border-radius: 16px;
+      padding: 16px;
+      overflow: auto;
+      white-space: pre-wrap;
+      position: relative;
+    }
+    .copyrow { display: flex; gap: 10px; align-items: center; justify-content: space-between; margin: 14px 0 6px; }
+    button.copy {
+      appearance: none; border: 1px solid rgba(56,189,248,.5); color: #e0f2fe;
+      background: rgba(8,47,73,.7); border-radius: 10px; padding: 7px 10px; cursor: pointer;
+      font-weight: 800;
+    }
+    button.copy:hover { background: rgba(14,116,144,.75); }
+    table { width: 100%; border-collapse: collapse; margin: 14px 0; overflow: hidden; border-radius: 14px; }
+    th, td { border: 1px solid rgba(148,163,184,.22); padding: 11px; vertical-align: top; }
+    th { background: rgba(30,41,59,.95); text-align: left; }
+    td { background: rgba(15,23,42,.48); }
+    details {
+      border: 1px solid rgba(148,163,184,.22);
+      background: rgba(15,23,42,.45);
+      border-radius: 16px;
+      padding: 14px 16px;
+      margin: 12px 0;
+    }
+    summary { cursor: pointer; font-weight: 850; color: #dbeafe; }
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 10px;
+      margin: 16px 0;
+    }
+    .flow div {
+      border: 1px solid rgba(56,189,248,.25);
+      border-radius: 16px;
+      padding: 12px;
+      background: rgba(8,47,73,.25);
+      text-align: center;
+      font-weight: 800;
+    }
+    .printNote { display: none; }
+    @media print {
+      body { background: white; color: var(--paperInk); }
+      .wrap { max-width: none; padding: 0; }
+      header, section { background: white; box-shadow: none; border-color: #bbb; color: var(--paperInk); }
+      nav, button.copy { display: none; }
+      .tag { color: var(--paperInk); border-color: #aaa; background: #eee; }
+      pre { background: #f3f4f6; color: #111827; border-color: #aaa; }
+      a { color: #0645ad; }
+      .printNote { display: block; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="eyebrow">Implementation Manual · SoulAgentOS v10</div>
+      <h1>Build, Run, Debug, Biopsy</h1>
+      <p class="lede">A practical guide for installing and shipping the local Flask agent laboratory: identity, API key, Soul.md, SQLite memory, knowledge graph, goals, Goal Pulse, Lab Bench, program runner, auto-fix loop, and failure biopsy.</p>
+      <div class="tagbar">
+        <span class="tag">Local Flask GUI</span>
+        <span class="tag">OpenAI / Anthropic / Ollama</span>
+        <span class="tag">Workspace-caged files</span>
+        <span class="tag">Python stdout/stderr capture</span>
+        <span class="tag">Biopsy-first debugging</span>
+      </div>
+    </header>
+
+    <nav aria-label="Guide navigation">
+      <a href="#what">1. What you are shipping</a>
+      <a href="#install">2. Install and run</a>
+      <a href="#configure">3. Configure models and keys</a>
+      <a href="#first-test">4. First test</a>
+      <a href="#lab-bench">5. Lab Bench and auto-fix</a>
+      <a href="#pulse">6. Goal Pulse</a>
+      <a href="#biopsy">7. Biopsy workflow</a>
+      <a href="#skills">8. Add skills</a>
+      <a href="#ship">9. Ship checklist</a>
+    </nav>
+
+    <section id="what">
+      <h2>1. What this is</h2>
+      <p><strong>SoulAgentOS</strong> is a local agent laboratory. It is not a black-box autonomous system. It is a controlled loop where a language model can choose from a fixed set of local tools, write files only inside <code>workspace/</code>, run Python files there, and show you exactly what happened.</p>
+      <div class="flow">
+        <div>Observe context</div>
+        <div>Choose one action</div>
+        <div>Run tool</div>
+        <div>Capture result</div>
+        <div>Continue or final</div>
+        <div>Biopsy if broken</div>
+      </div>
+      <div class="grid">
+        <div class="card good"><strong>Core idea</strong><br>The agent should be useful because it can make and run artifacts, not because it sounds confident.</div>
+        <div class="card warn"><strong>Safety boundary</strong><br>No shell skill. Local file access is restricted to <code>workspace/</code>. Python runs are low-stakes lab execution, not a hardened sandbox.</div>
+        <div class="card"><strong>Killer feature</strong><br><strong>Biopsy</strong> exports the raw prompts, model outputs, tool calls, stdout/stderr, goals, memory, and workspace state so a failure can be diagnosed.</div>
+      </div>
+    </section>
+
+    <section id="install">
+      <h2>2. Install and run</h2>
+      <h3>Folder layout</h3>
+      <pre><code>soul_agent_os/
+  app.py              Flask routes and API endpoints
+  run.py              local launcher
+  agent_core.py       agent loop, JSON/function-call parsing, auto-runs .py files
+  llm_clients.py      OpenAI, Anthropic, Ollama, OpenAI-compatible clients
+  storage.py          SQLite storage layer
+  tools.py            skill registry and built-in tools
+  soul.md             editable agent constitution
+  data/               local SQLite DB appears here
+  workspace/          agent-readable/writable lab files only
+  templates/index.html
+  static/style.css
+  static/app.js</code></pre>
+
+      <div class="copyrow"><h3>macOS / Linux</h3><button class="copy" data-copy="mac-install">Copy</button></div>
+      <pre id="mac-install"><code>cd soul_agent_os
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+python run.py</code></pre>
+
+      <div class="copyrow"><h3>Windows PowerShell</h3><button class="copy" data-copy="win-install">Copy</button></div>
+      <pre id="win-install"><code>cd soul_agent_os
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+python run.py</code></pre>
+
+      <p>Then open:</p>
+      <pre><code>http://127.0.0.1:5007</code></pre>
+    </section>
+
+    <section id="configure">
+      <h2>3. Configure models and keys</h2>
+      <ol>
+        <li>Enter <strong>Your display name</strong>.</li>
+        <li>Enter <strong>Agent name</strong>.</li>
+        <li>Choose provider: OpenAI, Anthropic, Ollama, or OpenAI-compatible.</li>
+        <li>Paste the API key in the password field.</li>
+        <li>Choose a model preset or type a model ID manually.</li>
+        <li>Leave <strong>Save key</strong> unchecked unless you want to write it to <code>.env.local</code>.</li>
+      </ol>
+      <table>
+        <thead><tr><th>Provider</th><th>Typical model field</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>Anthropic</td><td><code>claude-haiku-4-5</code></td><td>Fast and relatively inexpensive. Good first test model.</td></tr>
+          <tr><td>Anthropic pinned</td><td><code>claude-haiku-4-5-20251001</code></td><td>Snapshot-style ID for reproducibility.</td></tr>
+          <tr><td>OpenAI</td><td><code>gpt-4.1-mini</code> or newer</td><td>Use your current preferred OpenAI model.</td></tr>
+          <tr><td>Ollama</td><td><code>llama3.1:8b</code></td><td>Requires Ollama running locally.</td></tr>
+          <tr><td>OpenAI-compatible</td><td>Model depends on server</td><td>Use base URL for your local or hosted compatible endpoint.</td></tr>
+        </tbody>
+      </table>
+      <details>
+        <summary>Optional .env.local setup</summary>
+        <pre><code>cp .env.example .env.local
+# edit .env.local and add keys/model defaults
+# never commit .env.local</code></pre>
+      </details>
+    </section>
+
+    <section id="first-test">
+      <h2>4. First test: prove the agent loop works</h2>
+      <p>Start with a tiny task that forces a file write, program run, and visible output.</p>
+      <div class="copyrow"><h3>Recommended test prompt</h3><button class="copy" data-copy="test-prompt">Copy</button></div>
+      <pre id="test-prompt"><code>Write a Python program in workspace that prints the first 20 prime numbers. Run it. If it fails, fix it and run again. Then tell me the stdout.</code></pre>
+      <p>Expected behavior:</p>
+      <ol>
+        <li>Live trace shows the model deciding to write a file.</li>
+        <li>The file appears in the workspace selector.</li>
+        <li>The app automatically runs the new <code>.py</code> file.</li>
+        <li>Program Output shows stdout/stderr.</li>
+        <li>The final answer references real run output, not just confidence.</li>
+      </ol>
+      <div class="card warn"><strong>Red flag:</strong> If the final says “I wrote and ran it,” but <code>workspace/</code> is empty or <strong>Program Runs</strong> is empty, use Biopsy. That is exactly the failure v8 was designed to expose.</div>
+    </section>
+
+    <section id="lab-bench">
+      <h2>5. Program Lab Bench</h2>
+      <p>The Lab Bench is the center of the app for coding tasks. It should feel like a small IDE plus a specimen tray.</p>
+      <div class="grid">
+        <div class="card"><span class="num">1</span><strong>Select file</strong><br>Choose any file inside <code>workspace/</code>. Python files are runnable.</div>
+        <div class="card"><span class="num">2</span><strong>Edit code</strong><br>Inspect or edit the code in the viewer/editor.</div>
+        <div class="card"><span class="num">3</span><strong>Run Program</strong><br>Execute with the <code>python_run</code> skill. No shell.</div>
+        <div class="card"><span class="num">4</span><strong>Read stdout/stderr</strong><br>Output is saved to SQLite and shown in Program Output.</div>
+        <div class="card"><span class="num">5</span><strong>Run + Auto-Fix</strong><br>The agent reads the failure, patches the file, and reruns up to max steps.</div>
+      </div>
+      <h3>Auto-fix loop</h3>
+      <pre><code>run selected .py
+if returncode == 0:
+    show stdout and stop
+else:
+    send code + stderr to agent
+    agent patches file_write
+    run again
+    repeat until success or max steps</code></pre>
+      <div class="card bad"><strong>Security note:</strong> The runner is deliberately limited but not a hardened sandbox. Do not use it to run untrusted code from strangers. It is for your local low-stakes lab work.</div>
+    </section>
+
+    <section id="pulse">
+      <h2>6. Goal Pulse</h2>
+      <p><strong>Goal Pulse</strong> is the long-horizon loop. It is visible, browser-driven, and should move user work forward before touching agent housekeeping.</p>
+      <table>
+        <thead><tr><th>Mode</th><th>Best use</th><th>Expected behavior</th></tr></thead>
+        <tbody>
+          <tr><td><code>work</code></td><td>Default</td><td>Pick highest-priority open user goal/todo and produce an artifact if possible.</td></tr>
+          <tr><td><code>advance</code></td><td>Stepwise project progress</td><td>Move one concrete todo forward.</td></tr>
+          <tr><td><code>cleanup</code></td><td>Memory/workspace hygiene</td><td>Only after checking whether user work is waiting.</td></tr>
+          <tr><td><code>reflect</code></td><td>Status check</td><td>Summarize state without unnecessary changes.</td></tr>
+        </tbody>
+      </table>
+      <p>Use <strong>Pulse Once Now</strong> for testing. Use <strong>Start Pulse</strong> to repeat while the browser tab is open. The pulse is not a hidden daemon.</p>
+      <div class="copyrow"><h3>Good pulse test</h3><button class="copy" data-copy="pulse-test">Copy</button></div>
+      <pre id="pulse-test"><code>Add a high-priority todo: write a Python script that finds the first 20 four-digit primes in pi and e, run it, and save the output. Then pulse once.</code></pre>
+    </section>
+
+    <section id="biopsy">
+      <h2>7. Biopsy workflow</h2>
+      <p>Biopsy is the debug contract. When the app fails, you do not describe the ghost. You export the specimen.</p>
+      <ol>
+        <li>Click <strong>Biopsy</strong> or <strong>Copy Biopsy</strong>.</li>
+        <li>Paste the JSON into ChatGPT.</li>
+        <li>Ask: “Diagnose the failure mode and patch the code.”</li>
+      </ol>
+      <h3>Biopsy includes</h3>
+      <ul>
+        <li>App version and browser timestamp.</li>
+        <li>Settings without API key.</li>
+        <li>Raw model output.</li>
+        <li>Parsed JSON or parsed function-call blocks.</li>
+        <li>Tool calls and tool results.</li>
+        <li>Program stdout/stderr.</li>
+        <li>Workspace file list.</li>
+        <li>Soul.md, goals, todos, KG, notes, and recent pulse history.</li>
+      </ul>
+      <div class="card good"><strong>Important:</strong> The API key field is redacted/not exported. Still, Biopsy can include local notes and prompts. Treat it as a diagnostic bundle, not a public paste.</div>
+    </section>
+
+    <section id="skills">
+      <h2>8. Adding a custom skill</h2>
+      <p>Skills are registered in <code>tools.py</code>. A skill is just a Python function plus a JSON schema describing its arguments.</p>
+      <div class="copyrow"><h3>Minimal skill example</h3><button class="copy" data-copy="skill-code">Copy</button></div>
+      <pre id="skill-code"><code>def skill_reverse_text(text: str):
+    return {"reversed": text[::-1]}
+
+TOOL_REGISTRY["reverse_text"] = Tool(
+    "reverse_text",
+    "Reverse a string.",
+    {
+        "type": "object",
+        "properties": {"text": {"type": "string"}},
+        "required": ["text"],
+    },
+    skill_reverse_text,
+)</code></pre>
+      <ol>
+        <li>Open <code>tools.py</code>.</li>
+        <li>Add the function.</li>
+        <li>Add the <code>Tool(...)</code> entry.</li>
+        <li>Restart Flask.</li>
+        <li>Ask the agent to use the new skill.</li>
+      </ol>
+      <div class="card warn"><strong>Approval gates:</strong> Any future skill that sends email, deletes files, spends money, calls APIs with private data, or changes external systems should require a human approval screen before execution.</div>
+    </section>
+
+    <section id="ship">
+      <h2>9. Shipping checklist</h2>
+      <div class="grid">
+        <div class="card good"><strong>Clean secrets</strong><ul><li>Do not ship <code>.env.local</code>.</li><li>Do not ship real API keys.</li><li>Keep <code>.env.example</code>.</li></ul></div>
+        <div class="card good"><strong>Clean data</strong><ul><li>Ship <code>data/.keep</code>, not a personal DB.</li><li>Ship <code>workspace/.keep</code>, not private workspace files.</li></ul></div>
+        <div class="card good"><strong>First-run UX</strong><ul><li>Name field visible.</li><li>Agent name visible.</li><li>Model selector visible.</li><li>Test prompt included.</li></ul></div>
+        <div class="card good"><strong>Safety banner</strong><ul><li>Local experimental agent.</li><li>Workspace-only files.</li><li>Python runner is not a sandbox.</li><li>Biopsy may include local notes.</li></ul></div>
+      </div>
+      <h3>Suggested repository description</h3>
+      <pre><code>SoulAgentOS is a local Flask-based agent laboratory with API-key model access, Soul.md, SQLite memory, goals/todos, knowledge graph triples, a visible Goal Pulse, workspace-caged file tools, Python stdout/stderr capture, auto-fix loop, and Biopsy export for debugging failures.</code></pre>
+      <h3>Suggested README warning</h3>
+      <pre><code>This is an experimental local agent lab. It can write and run Python files inside workspace/. It is not a hardened sandbox. Do not run untrusted code. Do not paste secrets except API keys into the intended API key field. Use Biopsy to debug failures; review Biopsy contents before sharing publicly.</code></pre>
+    </section>
+
+    <section id="troubleshooting">
+      <h2>10. Troubleshooting map</h2>
+      <table>
+        <thead><tr><th>Symptom</th><th>Likely cause</th><th>What to do</th></tr></thead>
+        <tbody>
+          <tr><td>Missing key error</td><td>No provider key in GUI or env</td><td>Paste key or create <code>.env.local</code>.</td></tr>
+          <tr><td>Invalid JSON</td><td>Model got chatty</td><td>Lower temperature, retry, use stronger model, Biopsy if repeated.</td></tr>
+          <tr><td>Says it ran code but no output</td><td>Tool-call parsing or execution bug</td><td>Check Program Runs. Export Biopsy.</td></tr>
+          <tr><td>Network/server streaming error</td><td>Backend exception or prompt too large</td><td>Biopsy should include server error and traceback.</td></tr>
+          <tr><td>Goal Pulse reviews but does not progress</td><td>Prompt drift or wrong mode</td><td>Use <code>work</code> mode and check open todos/goals in Biopsy.</td></tr>
+          <tr><td>Ollama no response</td><td>Ollama not running or model missing</td><td>Run <code>ollama serve</code> and <code>ollama pull llama3.1:8b</code>.</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>One-sentence implementation principle</h2>
+      <p class="lede"><strong>Do not trust the agent’s words; trust the artifacts, tool logs, stdout/stderr, and Biopsy.</strong></p>
+      <p class="printNote">Printed from the standalone SoulAgentOS implementation guide.</p>
+    </section>
+  </div>
+
+  <script>
+    document.querySelectorAll('button.copy').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const id = btn.getAttribute('data-copy');
+        const el = document.getElementById(id);
+        const text = el ? el.innerText : '';
+        try {
+          await navigator.clipboard.writeText(text);
+          const old = btn.textContent;
+          btn.textContent = 'Copied';
+          setTimeout(() => btn.textContent = old, 900);
+        } catch (e) {
+          alert('Copy failed. Select the block manually.');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

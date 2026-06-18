@@ -1,0 +1,82 @@
+<!doctype html><html><head><meta charset="utf-8"><title>SoulAgentOS Download Instructions</title><style>body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;max-width:900px;margin:36px auto;padding:0 20px;line-height:1.55}code,pre{background:#f4f4f4;border-radius:8px;padding:2px 5px}pre{padding:14px;white-space:pre-wrap}h1{font-size:2rem}h2{margin-top:2rem}.warn{background:#fff5d6;border:1px solid #e6c866;border-radius:10px;padding:12px}</style></head><body><div class="warn"><b>Beginner path:</b> GitHub → Releases → Assets → SoulAgentOS-v0.13.zip. Do not clone. Just unzip and follow these steps.</div><h1>GitHub Download and Install Instructions</h1>
+<p>This file is for people who do **not** use Git.</p>
+<p>Use the GitHub **Release zip**, not `git clone`.</p>
+<h2>Download</h2>
+<li>Open the SoulAgentOS GitHub page.</li>
+<li>Click **Releases** on the right side of the page.</li>
+<li>Open the newest release, for example **SoulAgentOS v0.13 — Skill Finder**.</li>
+<li>Scroll to **Assets**.</li>
+<li>Click **SoulAgentOS-v0.13.zip**.</li>
+<li>Save the zip to your Desktop or Downloads folder.</li>
+<li>Unzip it.</li>
+<li>Open the unzipped folder named **SoulAgentOS-v0.13**.</li>
+<p>Inside the folder you should see:</p>
+<pre>
+<p>README.md</p>
+<p>run.py</p>
+<p>app.py</p>
+<p>agent_core.py</p>
+<p>tools.py</p>
+<p>storage.py</p>
+<p>llm_clients.py</p>
+<p>requirements.txt</p>
+<p>soul.md</p>
+<p>IMPLEMENTATION_GUIDE.html</p>
+<p>workspace/</p>
+<p>data/</p>
+<pre>
+<h2>Mac install</h2>
+<p>Open Terminal in the unzipped **SoulAgentOS-v0.13** folder, then run:</p>
+<pre>
+<p>python3 -m venv .venv</p>
+<p>source .venv/bin/activate</p>
+<p>pip install -r requirements.txt</p>
+<p>python run.py</p>
+<pre>
+<p>Then open:</p>
+<pre>
+<p>http://127.0.0.1:5007</p>
+<pre>
+<h2>Windows install</h2>
+<p>Open PowerShell in the unzipped **SoulAgentOS-v0.13** folder, then run:</p>
+<pre>
+<p>python -m venv .venv</p>
+<p>.venv\Scripts\Activate.ps1</p>
+<p>pip install -r requirements.txt</p>
+<p>python run.py</p>
+<pre>
+<p>If PowerShell blocks activation, run this first:</p>
+<pre>
+<p>Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass</p>
+<p>.venv\Scripts\Activate.ps1</p>
+<pre>
+<p>Then open:</p>
+<pre>
+<p>http://127.0.0.1:5007</p>
+<pre>
+<h2>First test</h2>
+<p>In the app:</p>
+<li>Enter your display name.</li>
+<li>Choose provider and model.</li>
+<li>Paste your API key.</li>
+<li>Try:</li>
+<pre>
+<p>Write a Python program that prints the first 20 prime numbers. Run it and show stdout.</p>
+<pre>
+<p>Expected behavior:</p>
+<li>the agent writes a `.py` file inside `workspace/`</li>
+<li>the Lab Bench shows the file</li>
+<li>the program runs</li>
+<li>stdout appears in Program Output</li>
+<li>if it crashes, the agent can inspect stderr and patch the file</li>
+<h2>Safety notes</h2>
+<li>Do not expose this app directly to the public internet.</li>
+<li>Do not treat `python_run` as a hardened sandbox.</li>
+<li>Do not commit `.env.local`, API keys, private databases, or biopsy files.</li>
+<li>Email or other external-action skills should be draft-first and approval-gated.</li>
+<h2>Debugging</h2>
+<p>If something fails:</p>
+<li>Click **Biopsy**.</li>
+<li>Save or copy the JSON.</li>
+<li>Paste the JSON into ChatGPT with: “Please diagnose this SoulAgentOS failure.”</li>
+<p>Biopsy exports do not include the API key field.</p></body></html>
