@@ -1,0 +1,867 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bronson's First Agent — Easy Download Guide</title>
+  <meta name="description" content="Easy clickable setup guide for Bronson's First Agent / SoulAgentOS." />
+  <style>
+    :root {
+      --bg: #070b18;
+      --panel: rgba(255,255,255,0.075);
+      --text: #f7fbff;
+      --muted: #b8c4dc;
+      --line: rgba(255,255,255,0.16);
+      --accent: #7dd3fc;
+      --accent2: #c4b5fd;
+      --good: #86efac;
+      --warn: #fde68a;
+      --bad: #fca5a5;
+      --shadow: 0 28px 90px rgba(0,0,0,0.45);
+      --radius: 24px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--text);
+      font-family: var(--sans);
+      background:
+        radial-gradient(circle at 10% 0%, rgba(125,211,252,0.22), transparent 34rem),
+        radial-gradient(circle at 95% 15%, rgba(196,181,253,0.22), transparent 33rem),
+        linear-gradient(140deg, var(--bg), #040713 68%);
+      min-height: 100vh;
+    }
+    a { color: inherit; }
+    .wrap { width: min(1120px, calc(100% - 32px)); margin: 0 auto; }
+    header {
+      padding: 26px 0 10px;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(18px);
+      background: linear-gradient(to bottom, rgba(7,11,24,0.96), rgba(7,11,24,0.66), transparent);
+    }
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.065);
+      padding: 10px 12px 10px 18px;
+      box-shadow: 0 18px 44px rgba(0,0,0,0.18);
+    }
+    .brand { display: flex; gap: 10px; align-items: center; font-weight: 900; letter-spacing: -0.02em; }
+    .orb {
+      width: 34px; height: 34px; border-radius: 999px;
+      background: conic-gradient(from 220deg, var(--accent), var(--accent2), var(--good), var(--accent));
+      box-shadow: 0 0 32px rgba(125,211,252,0.5);
+    }
+    .navlinks { display: flex; gap: 7px; flex-wrap: wrap; justify-content: flex-end; }
+    .navlinks a { text-decoration: none; color: var(--muted); padding: 8px 10px; border-radius: 999px; font-size: 0.92rem; }
+    .navlinks a:hover { color: var(--text); background: rgba(255,255,255,0.08); }
+    .hero {
+      padding: 62px 0 30px;
+      display: grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 28px;
+      align-items: center;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.07);
+      color: var(--muted);
+      padding: 8px 12px;
+      border-radius: 999px;
+      margin-bottom: 18px;
+    }
+    .badge b { color: var(--good); }
+    h1 {
+      margin: 0 0 18px;
+      font-size: clamp(2.5rem, 7vw, 5.7rem);
+      line-height: .92;
+      letter-spacing: -0.075em;
+    }
+    .gradient {
+      background: linear-gradient(90deg, #fff, #bae6fd 45%, #ddd6fe 78%, #fff);
+      color: transparent;
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+    .subtitle {
+      margin: 0;
+      max-width: 72ch;
+      font-size: clamp(1.05rem, 1.8vw, 1.3rem);
+      line-height: 1.6;
+      color: var(--muted);
+    }
+    .hero-card, .card, details {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      border-radius: var(--radius);
+      box-shadow: 0 14px 44px rgba(0,0,0,0.18);
+    }
+    .hero-card {
+      padding: 24px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.055));
+      box-shadow: var(--shadow);
+    }
+    .big-download {
+      display: block;
+      text-align: center;
+      text-decoration: none;
+      margin-top: 18px;
+      padding: 18px 20px;
+      border-radius: 20px;
+      font-weight: 900;
+      color: #06111f;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow: 0 22px 44px rgba(0,0,0,0.28);
+      transition: transform 140ms ease, filter 140ms ease;
+    }
+    .big-download:hover { transform: translateY(-2px); filter: brightness(1.08); }
+    .mini { color: var(--muted); font-size: 0.93rem; line-height: 1.45; }
+    section { padding: 32px 0; }
+    .section-title {
+      margin: 0 0 10px;
+      font-size: clamp(1.75rem, 3vw, 2.75rem);
+      letter-spacing: -0.05em;
+    }
+    .section-lead { margin: 0 0 20px; color: var(--muted); line-height: 1.65; max-width: 82ch; }
+    .quick-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 20px;
+    }
+    .quick-card {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      text-decoration: none;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: rgba(255,255,255,0.07);
+      color: var(--text);
+      text-align: left;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .quick-card strong { font-size: 1rem; }
+    .quick-card span { color: var(--muted); font-size: 0.92rem; line-height: 1.35; }
+    .quick-card:hover { background: rgba(255,255,255,0.11); }
+    .wizard { display: grid; gap: 14px; }
+    details {
+      overflow: hidden;
+      background: rgba(255,255,255,0.075);
+    }
+    details[open] { background: rgba(255,255,255,0.105); }
+    summary {
+      cursor: pointer;
+      list-style: none;
+      padding: 20px 22px;
+      display: grid;
+      grid-template-columns: 48px 1fr auto;
+      gap: 14px;
+      align-items: center;
+    }
+    summary::-webkit-details-marker { display: none; }
+    .step-num {
+      width: 44px; height: 44px; border-radius: 16px;
+      display: grid; place-items: center;
+      font-weight: 950;
+      color: #06111f;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+    }
+    .summary-text h3 { margin: 0 0 4px; letter-spacing: -0.02em; }
+    .summary-text p { margin: 0; color: var(--muted); line-height: 1.35; }
+    .chev { color: var(--muted); font-size: 1.25rem; transition: transform 120ms ease; }
+    details[open] .chev { transform: rotate(90deg); }
+    .inside {
+      border-top: 1px solid var(--line);
+      padding: 20px 22px 22px;
+      display: grid;
+      gap: 16px;
+    }
+    .inside h4 { margin: 0 0 8px; }
+    .inside p, .inside li { color: var(--muted); line-height: 1.58; }
+    .inside p { margin: 0; }
+    .two { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .three { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .card { padding: 18px; }
+    .card h4, .card h3 { margin-top: 0; }
+    ol, ul { margin-top: 8px; }
+    .btn-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+    .btn {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.17);
+      text-decoration: none;
+      font-weight: 800;
+      background: rgba(255,255,255,0.09);
+      color: var(--text);
+      cursor: pointer;
+      font-family: inherit;
+      font-size: .95rem;
+    }
+    .btn.primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #06111f;
+    }
+    .btn.good { background: rgba(134,239,172,0.15); border-color: rgba(134,239,172,0.35); }
+    .btn.warn { background: rgba(253,230,138,0.13); border-color: rgba(253,230,138,0.35); }
+    code, pre {
+      font-family: var(--mono);
+      background: rgba(2,6,23,0.75);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: #dbeafe;
+    }
+    code { border-radius: 8px; padding: 2px 6px; }
+    pre {
+      margin: 8px 0 0;
+      border-radius: 16px;
+      padding: 14px;
+      white-space: pre-wrap;
+      word-break: break-word;
+      overflow: auto;
+    }
+    .note { border: 1px solid rgba(125,211,252,0.35); background: rgba(125,211,252,0.09); border-radius: 18px; padding: 14px; color: var(--muted); line-height: 1.55; }
+    .warnbox { border: 1px solid rgba(253,230,138,0.38); background: rgba(253,230,138,0.09); border-radius: 18px; padding: 14px; }
+    .badbox { border: 1px solid rgba(252,165,165,0.38); background: rgba(252,165,165,0.085); border-radius: 18px; padding: 14px; }
+    .choice {
+      border: 1px solid rgba(134,239,172,0.38);
+      background: rgba(134,239,172,0.09);
+      border-radius: 18px;
+      padding: 14px;
+    }
+    .choice strong { color: var(--good); }
+
+    .prompt-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    .prompt-card {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.075);
+      border-radius: 20px;
+      padding: 16px;
+      display: grid;
+      gap: 10px;
+    }
+    .prompt-card h3 { margin: 0; letter-spacing: -0.02em; }
+    .prompt-card p { margin: 0; color: var(--muted); line-height: 1.5; }
+    .prompt-text {
+      font-family: var(--mono);
+      background: rgba(2,6,23,0.78);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: #dbeafe;
+      border-radius: 16px;
+      padding: 12px;
+      white-space: pre-wrap;
+      word-break: break-word;
+      line-height: 1.45;
+      font-size: 0.92rem;
+    }
+    .copy-ok { color: var(--good); min-height: 1.2em; font-size: 0.9rem; }
+    @media (max-width: 900px) { .prompt-grid { grid-template-columns: 1fr; } }
+
+    footer { text-align: center; color: var(--muted); padding: 52px 0 70px; }
+    .modal-backdrop {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.72); z-index: 100;
+      display: none; align-items: center; justify-content: center; padding: 18px;
+    }
+    .modal-backdrop.show { display: flex; }
+    .modal {
+      width: min(780px, 100%);
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, #101936, #070b18);
+      border-radius: 26px;
+      box-shadow: var(--shadow);
+      padding: 22px;
+    }
+    .modal-header { display: flex; justify-content: space-between; gap: 14px; align-items: flex-start; margin-bottom: 12px; }
+    .modal h3 { margin: 0; }
+    .x { border: 1px solid var(--line); background: rgba(255,255,255,0.08); color: var(--text); border-radius: 12px; width: 38px; height: 38px; cursor: pointer; font-size: 1.1rem; }
+    textarea {
+      width: 100%; min-height: 220px; resize: vertical;
+      border: 1px solid rgba(255,255,255,0.16); background: rgba(2,6,23,0.82);
+      color: #e0f2fe; border-radius: 16px; padding: 14px;
+      font-family: var(--mono); line-height: 1.5;
+    }
+    .copy-status { min-height: 1.2em; color: var(--good); font-size: 0.9rem; }
+    @media (max-width: 900px) {
+      header { position: static; }
+      nav { border-radius: 22px; flex-direction: column; align-items: flex-start; }
+      .hero { grid-template-columns: 1fr; padding-top: 38px; }
+      .quick-grid { grid-template-columns: 1fr 1fr; }
+      .two, .three { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 540px) {
+      summary { grid-template-columns: 1fr; }
+      .chev { display: none; }
+      .quick-grid { grid-template-columns: 1fr; }
+      h1 { letter-spacing: -0.055em; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <nav>
+        <div class="brand"><span class="orb" aria-hidden="true"></span>Bronson's First Agent</div>
+        <div class="navlinks">
+          <a href="#start">Start</a>
+          <a href="#wizard">Instructions</a>
+          <a href="#examples">Example asks</a>
+          <a href="#heartbeat">Heartbeat</a>
+          <a href="#screenshots">Screenshots</a>
+          <a href="#help">Ask GPT</a>
+          <a href="#safety">Safety</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section id="start" class="hero wrap">
+      <div>
+        <div class="badge"><b>●</b> Easy setup page · SoulAgentOS v0.13</div>
+        <h1><span class="gradient">Bronson's<br>First Agent</span></h1>
+        <p class="subtitle">
+          Download a local experimental agent lab. Each box opens exact instructions.
+          Install links are included. If you get stuck, upload or paste a screenshot to GPT and ask for voice-guided help.
+        </p>
+      </div>
+      <div class="hero-card">
+        <h2 style="margin-top:0">Start here</h2>
+        <p class="mini">Click this exact download. Then come back to this page and open Step 2.</p>
+        <a class="big-download" href="https://github.com/DormantOne/soulagent/releases/download/v0.13.1/SoulAgentOS-v0.13.zip">⬇ Download SoulAgentOS-v0.13.zip</a>
+        <p class="mini">Do not click GitHub's automatic “Source code” downloads. Use the named zip above.</p>
+      </div>
+    </section>
+
+    <section class="wrap">
+      <h2 class="section-title">Fast path</h2>
+      <p class="section-lead">Click a box. It opens. Do only that step. Then move to the next box.</p>
+      <div class="quick-grid">
+        <a class="quick-card" href="#step-download"><strong>1. Download</strong><span>Get the exact zip.</span></a>
+        <a class="quick-card" href="#step-unzip"><strong>2. Unzip</strong><span>Find the folder.</span></a>
+        <a class="quick-card" href="#step-python"><strong>3. Python</strong><span>Use Python 3.13.x stable.</span></a>
+        <a class="quick-card" href="#step-terminal"><strong>4. Terminal</strong><span>Open it in the folder.</span></a>
+        <a class="quick-card" href="#step-install"><strong>5. Install</strong><span>Install requirements.</span></a>
+        <a class="quick-card" href="#step-run"><strong>6. Run</strong><span>Start localhost app.</span></a>
+        <a class="quick-card" href="#step-model"><strong>7. Model</strong><span>Add provider/key.</span></a>
+        <a class="quick-card" href="#step-test"><strong>8. First test</strong><span>Make it print hello.</span></a>
+      </div>
+    </section>
+
+    <section id="wizard" class="wrap">
+      <h2 class="section-title">Open each box for exact instructions</h2>
+      <p class="section-lead">Every step includes: what to click, what to type, and a button to ask ChatGPT for voice-guided help.</p>
+
+      <div class="wizard">
+
+        <details id="step-download" open>
+          <summary><div class="step-num">1</div><div class="summary-text"><h3>Download the right file</h3><p>Get the release zip, not GitHub's source-code archive.</p></div><div class="chev">›</div></summary>
+          <div class="inside">
+            <div class="two">
+              <div class="card">
+                <h4>Do this</h4>
+                <ol>
+                  <li>Click the download button.</li>
+                  <li>Your browser should download <code>SoulAgentOS-v0.13.zip</code>.</li>
+                  <li>Look in your Downloads folder if you cannot find it.</li>
+                </ol>
+                <div class="btn-row">
+                  <a class="btn primary" href="https://github.com/DormantOne/soulagent/releases/download/v0.13.1/SoulAgentOS-v0.13.zip">⬇ Download SoulAgentOS-v0.13.zip</a>
+                  <button class="btn good" data-payload="I am trying to download Bronson&#x27;s First Agent / SoulAgentOS from GitHub. Please walk me through it slowly. I need to download this exact file: https://github.com/DormantOne/soulagent/releases/download/v0.13.1/SoulAgentOS-v0.13.zip. I am not technical. Tell me exactly what to click and what I should see. Voice-friendly directions please.">🎙 Ask GPT for voice help</button>
+                </div>
+              </div>
+              <div class="card warnbox">
+                <h4>Do not use this</h4>
+                <p>Do not click <code>Source code (zip)</code> or <code>Source code (tar.gz)</code>. Those are GitHub's automatic archives.</p>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <details id="step-unzip">
+          <summary><div class="step-num">2</div><div class="summary-text"><h3>Unzip the file</h3><p>Turn the downloaded zip into a folder.</p></div><div class="chev">›</div></summary>
+          <div class="inside">
+            <div class="two">
+              <div class="card">
+                <h4>Mac</h4>
+                <ol>
+                  <li>Open Finder.</li>
+                  <li>Go to Downloads.</li>
+                  <li>Double-click <code>SoulAgentOS-v0.13.zip</code>.</li>
+                  <li>A folder should appear.</li>
+                </ol>
+              </div>
+              <div class="card">
+                <h4>Windows</h4>
+                <ol>
+                  <li>Open File Explorer.</li>
+                  <li>Go to Downloads.</li>
+                  <li>Right-click <code>SoulAgentOS-v0.13.zip</code>.</li>
+                  <li>Click <strong>Extract All</strong>.</li>
+                </ol>
+              </div>
+            </div>
+            <div class="note">After unzipping, you should see files like <code>README.md</code>, <code>run.py</code>, <code>requirements.txt</code>, and <code>GITHUB_DOWNLOAD_INSTRUCTIONS.html</code>.</div>
+          </div>
+        </details>
+
+        <details id="step-python">
+          <summary><div class="step-num">3</div><div class="summary-text"><h3>Install or check Python</h3><p>Recommended: Python 3.13.x, 64-bit, stable installer.</p></div><div class="chev">›</div></summary>
+          <div class="inside">
+            <div class="choice">
+              <h4>Recommended beginner choice</h4>
+              <p><strong>Download Python 3.13.x, 64-bit, stable installer.</strong> If python.org offers only a big “Download Python 3.14.x” button, that is also okay. Avoid anything labeled <code>alpha</code>, <code>beta</code>, <code>rc</code>, <code>embeddable</code>, or <code>source</code>.</p>
+            </div>
+            <div class="three">
+              <a class="btn primary" href="https://www.python.org/downloads/" target="_blank" rel="noopener">Official Python downloads</a>
+              <a class="btn" href="https://www.python.org/downloads/macos/" target="_blank" rel="noopener">Mac installers</a>
+              <a class="btn" href="https://www.python.org/downloads/windows/" target="_blank" rel="noopener">Windows installers</a>
+            </div>
+            <div class="two">
+              <div class="card">
+                <h4>Windows exact choice</h4>
+                <ol>
+                  <li>Open the Windows installers link.</li>
+                  <li>Look for <strong>Python 3.13.x</strong> under Stable Releases.</li>
+                  <li>Click <strong>Download Windows installer (64-bit)</strong>.</li>
+                  <li>Run the installer.</li>
+                  <li>Important: check <strong>Add python.exe to PATH</strong> if you see that box.</li>
+                </ol>
+                <p>Then check:</p>
+                <pre>python --version</pre>
+              </div>
+              <div class="card">
+                <h4>Mac exact choice</h4>
+                <ol>
+                  <li>Open the Mac installers link.</li>
+                  <li>Look for <strong>Python 3.13.x</strong> under Stable Releases.</li>
+                  <li>Click <strong>Download macOS installer</strong>.</li>
+                  <li>Open the downloaded <code>.pkg</code> installer and follow the prompts.</li>
+                </ol>
+                <p>Then check:</p>
+                <pre>python3 --version</pre>
+              </div>
+            </div>
+            <div class="btn-row"><button class="btn good" data-payload="I am setting up Bronson&#x27;s First Agent / SoulAgentOS. Please help me install Python. The guide recommends Python 3.13.x, 64-bit, stable installer. Python 3.14.x is also okay if that is what python.org offers, but I should avoid alpha, beta, rc, embeddable, and source-only downloads. Ask me whether I am on Mac or Windows, then give one step at a time. Voice-friendly directions please. After Python is installed, help me confirm it with python --version or python3 --version.">🎙 Ask GPT to guide Python install</button></div>
+          </div>
+        </details>
+
+        <details id="step-terminal">
+          <summary><div class="step-num">4</div><div class="summary-text"><h3>Open Terminal / PowerShell in the project folder</h3><p>This is the most important setup step.</p></div><div class="chev">›</div></summary>
+          <div class="inside">
+            <div class="two">
+              <div class="card">
+                <h4>Mac: easiest reliable method</h4>
+                <ol>
+                  <li>Open the unzipped <code>SoulAgentOS-v0.13</code> folder in Finder.</li>
+                  <li>Open the Terminal app.</li>
+                  <li>Type <code>cd </code> with a space after it, but do not press Enter yet.</li>
+                  <li>Drag the <code>SoulAgentOS-v0.13</code> folder from Finder into the Terminal window.</li>
+                  <li>Terminal will fill in the folder path.</li>
+                  <li>Press Enter.</li>
+                </ol>
+                <p>You should now be “inside” the project folder. To check, type:</p>
+                <pre>ls</pre>
+                <p>You should see <code>run.py</code> and <code>requirements.txt</code>.</p>
+              </div>
+              <div class="card">
+                <h4>Windows: easiest reliable method</h4>
+                <ol>
+                  <li>Open the unzipped <code>SoulAgentOS-v0.13</code> folder in File Explorer.</li>
+                  <li>Click once in the address bar at the top of the folder window.</li>
+                  <li>Type <code>powershell</code>.</li>
+                  <li>Press Enter.</li>
+                  <li>A PowerShell window should open already inside that folder.</li>
+                </ol>
+                <p>To check, type:</p>
+                <pre>dir</pre>
+                <p>You should see <code>run.py</code> and <code>requirements.txt</code>.</p>
+              </div>
+            </div>
+            <div class="note">Important: all commands below must be run from inside the folder that contains <code>run.py</code>.</div>
+            <div class="btn-row"><button class="btn good" data-payload="I am setting up Bronson&#x27;s First Agent / SoulAgentOS. I have unzipped the folder and need help opening Terminal or PowerShell in the exact project folder. Please guide me slowly, one step at a time. On Mac, explain the &#x27;cd &#x27; then drag-folder-into-Terminal method. On Windows, explain clicking the folder address bar, typing powershell, and pressing Enter. Voice-friendly directions please.">🎙 Ask GPT to help open the right folder</button></div>
+          </div>
+        </details>
+
+        <details id="step-install">
+          <summary><div class="step-num">5</div><div class="summary-text"><h3>Install requirements</h3><p>Install the Python packages the agent needs.</p></div><div class="chev">›</div></summary>
+          <div class="inside">
+            <div class="card">
+              <h4>Type this in Terminal / PowerShell</h4>
+              <pre>pip install -r requirements.txt</pre>
+              <p class="mini">On Mac, if that does not work, try:</p>
+              <pre>pip3 install -r requirements.txt</pre>
+            </div>
+            <div class="btn-row"><button class="btn good" data-payload="I am setting up Bronson&#x27;s First Agent / SoulAgentOS. I need to install requirements from requirements.txt. Please guide me through running pip install -r requirements.txt or pip3 install -r requirements.txt from the project folder. If there is an error, ask me to paste the error text or upload a screenshot. Voice-friendly directions please.">🎙 Ask GPT for install help</button></div>
+          </div>
+        </details>
+
+        <details id="step-run">
+          <summary><div class="step-num">6</div><div class="summary-text"><h3>Run Bronson's First Agent</h3><p>Start the local web app.</p></div><div class="chev">›</div></summary>
+          <div class="inside">
+            <div class="card">
+              <h4>Type this</h4>
+              <pre>python run.py</pre>
+              <p class="mini">On Mac, if that does not work, try:</p>
+              <pre>python3 run.py</pre>
+            </div>
+            <div class="card">
+              <h4>Open this in your browser</h4>
+              <pre>http://localhost:5007/</pre>
+            </div>
+            <div class="btn-row"><button class="btn good" data-payload="I am setting up Bronson&#x27;s First Agent / SoulAgentOS. I need to start the app by running python run.py or python3 run.py from inside the project folder, then open http://localhost:5007/ in my browser. Please guide me slowly. If it fails, ask me to paste the terminal error or upload a screenshot. Voice-friendly directions please.">🎙 Ask GPT to help start it</button></div>
+          </div>
+        </details>
+
+        <details id="step-model">
+          <summary><div class="step-num">7</div><div class="summary-text"><h3>Choose model/provider</h3><p>Use an API key or a local model. Do not paste secrets into ChatGPT.</p></div><div class="chev">›</div></summary>
+          <div class="inside">
+            <div class="card"><h4>Beginner rule</h4><p>Enter the API key only into your local SoulAgentOS page, not into random websites or chats. If using a local model, make sure the local model server is already running.</p></div>
+            <div class="btn-row"><button class="btn good" data-payload="I am setting up Bronson&#x27;s First Agent / SoulAgentOS. I need help choosing a provider/model and entering an API key or using a local model. Please explain the safest beginner options. Do not ask me to paste my API key into chat. Voice-friendly directions please.">🎙 Ask GPT for model setup help</button></div>
+          </div>
+        </details>
+
+        <details id="step-test">
+          <summary><div class="step-num">8</div><div class="summary-text"><h3>Run the first safe test</h3><p>Make sure the agent can write code, run it, and show stdout.</p></div><div class="chev">›</div></summary>
+          <div class="inside">
+            <div class="card"><h4>Paste this into the goal box</h4><pre>Write a tiny Python program that prints hello, run it, and show me stdout.</pre></div>
+            <div class="note">Success means you see a file written in <code>workspace/</code>, a Python run, and stdout showing <code>hello</code>.</div>
+            <div class="btn-row"><button class="btn good" data-payload="I have opened Bronson&#x27;s First Agent / SoulAgentOS in my browser. Please help me run the first safe test: &#x27;Write a tiny Python program that prints hello, run it, and show me stdout.&#x27; Explain what success should look like, and what to do if it fails. Ask me to upload a screenshot if I am confused. Voice-friendly directions please.">🎙 Ask GPT to walk through first test</button></div>
+          </div>
+        </details>
+
+        <details id="step-biopsy">
+          <summary><div class="step-num">9</div><div class="summary-text"><h3>If it fails, press Biopsy</h3><p>Biopsy is the black box recorder.</p></div><div class="chev">›</div></summary>
+          <div class="inside">
+            <div class="card">
+              <h4>What to do</h4>
+              <ol>
+                <li>Press <strong>Biopsy</strong>.</li>
+                <li>Save the downloaded JSON file.</li>
+                <li>Send that file to whoever is helping you debug.</li>
+                <li>Do not include API keys.</li>
+              </ol>
+            </div>
+            <div class="btn-row"><button class="btn good" data-payload="Bronson&#x27;s First Agent / SoulAgentOS failed. I have a Biopsy button. Please tell me how to export a Biopsy JSON and what to paste/upload so someone can diagnose it. Voice-friendly directions please.">🎙 Ask GPT to help with Biopsy</button></div>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+
+    <section id="examples" class="wrap">
+      <h2 class="section-title">Example asks for the agent</h2>
+      <p class="section-lead">
+        These are safe first prompts. Copy one into Bronson's First Agent after setup.
+        The best prompts ask the agent to create an artifact, run it, inspect the output, and fix errors.
+      </p>
+
+      <div class="prompt-grid">
+        <div class="prompt-card">
+          <h3>Program writing: tiny first test</h3>
+          <p>Use this to confirm file-writing and stdout work.</p>
+          <div class="prompt-text">Write a tiny Python program called hello_agent.py that prints hello from Bronson's First Agent. Run it and show me stdout.</div>
+          <button class="btn good" data-copy="Write a tiny Python program called hello_agent.py that prints hello from Bronson's First Agent. Run it and show me stdout.">Copy prompt</button>
+          <div class="copy-ok"></div>
+        </div>
+
+        <div class="prompt-card">
+          <h3>Program writing: build a little app</h3>
+          <p>Good for seeing it create something visual in the workspace.</p>
+          <div class="prompt-text">Create a single-file HTML toy called bouncing_ball.html. It should show a ball bouncing with gravity, pause/play, and a reset button. Save it in the workspace. Then tell me exactly which file to open.</div>
+          <button class="btn good" data-copy="Create a single-file HTML toy called bouncing_ball.html. It should show a ball bouncing with gravity, pause/play, and a reset button. Save it in the workspace. Then tell me exactly which file to open.">Copy prompt</button>
+          <div class="copy-ok"></div>
+        </div>
+
+        <div class="prompt-card">
+          <h3>Debugging: run and repair</h3>
+          <p>Good for testing the Lab Bench and auto-fix loop.</p>
+          <div class="prompt-text">Write a Python script that calculates the first 20 Fibonacci numbers, saves them to fibonacci.txt, runs the script, checks stdout/stderr, and fixes any error before giving the final answer.</div>
+          <button class="btn good" data-copy="Write a Python script that calculates the first 20 Fibonacci numbers, saves them to fibonacci.txt, runs the script, checks stdout/stderr, and fixes any error before giving the final answer.">Copy prompt</button>
+          <div class="copy-ok"></div>
+        </div>
+
+        <div class="prompt-card">
+          <h3>Data/chart task</h3>
+          <p>Good for seeing it make a file and a chart.</p>
+          <div class="prompt-text">Create a small fake CSV of 14 days of step counts, write a Python script to analyze it, make a simple matplotlib chart, save the chart as steps_chart.png, run the script, and show me stdout/stderr.</div>
+          <button class="btn good" data-copy="Create a small fake CSV of 14 days of step counts, write a Python script to analyze it, make a simple matplotlib chart, save the chart as steps_chart.png, run the script, and show me stdout/stderr.">Copy prompt</button>
+          <div class="copy-ok"></div>
+        </div>
+
+        <div class="prompt-card">
+          <h3>Research online</h3>
+          <p>Use only if your version/provider has online search or a research tool configured.</p>
+          <div class="prompt-text">Research online: find 5 recent reputable sources about independent AI agents and autonomous businesses. Make a short report with links, dates, and a one-paragraph summary. Save it as ai_agents_research.md in the workspace. Do not invent sources.</div>
+          <button class="btn good" data-copy="Research online: find 5 recent reputable sources about independent AI agents and autonomous businesses. Make a short report with links, dates, and a one-paragraph summary. Save it as ai_agents_research.md in the workspace. Do not invent sources.">Copy prompt</button>
+          <div class="copy-ok"></div>
+        </div>
+
+        <div class="prompt-card">
+          <h3>Research with caution</h3>
+          <p>For current facts: demand citations and dates.</p>
+          <div class="prompt-text">Research online: what are the latest stable Python versions for Mac and Windows? Use official Python.org sources only. Give me the recommendation for a non-technical user and include dates/links. Save the answer as python_version_note.md.</div>
+          <button class="btn good" data-copy="Research online: what are the latest stable Python versions for Mac and Windows? Use official Python.org sources only. Give me the recommendation for a non-technical user and include dates/links. Save the answer as python_version_note.md.">Copy prompt</button>
+          <div class="copy-ok"></div>
+        </div>
+
+        <div class="prompt-card">
+          <h3>Knowledge graph / memory</h3>
+          <p>Good for seeing whether it records useful facts.</p>
+          <div class="prompt-text">Add this to your typed knowledge graph: Bronson's First Agent is a local experimental agent lab. Then retrieve related facts about tools, lab bench, and biopsy, and explain what you found.</div>
+          <button class="btn good" data-copy="Add this to your typed knowledge graph: Bronson's First Agent is a local experimental agent lab. Then retrieve related facts about tools, lab bench, and biopsy, and explain what you found.">Copy prompt</button>
+          <div class="copy-ok"></div>
+        </div>
+
+        <div class="prompt-card">
+          <h3>Biopsy test</h3>
+          <p>Good for learning the black-box recorder.</p>
+          <div class="prompt-text">Intentionally create a tiny Python script with one obvious bug, run it, inspect the error, fix it, rerun it, and then tell me what would be useful to look for in Biopsy if this had failed.</div>
+          <button class="btn good" data-copy="Intentionally create a tiny Python script with one obvious bug, run it, inspect the error, fix it, rerun it, and then tell me what would be useful to look for in Biopsy if this had failed.">Copy prompt</button>
+          <div class="copy-ok"></div>
+        </div>
+      </div>
+
+      <div class="badbox" style="margin-top:16px">
+        <h3 style="margin-top:0">Avoid these asks</h3>
+        <ul>
+          <li>Do not ask it to email people automatically.</li>
+          <li>Do not ask it to scrape private contact information.</li>
+          <li>Do not ask it to make financial, legal, medical, or public-outreach decisions without human review.</li>
+          <li>Do not trust online research unless it gives sources and dates.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="heartbeat" class="wrap">
+      <h2 class="section-title">Heartbeat demo: set it to 1 minute</h2>
+      <p class="section-lead">
+        For a demo, set the heartbeat / Goal Pulse interval to <strong>1 minute</strong> or <strong>60 seconds</strong>
+        so you can see it act quickly. Use harmless goals only.
+      </p>
+
+      <div class="two">
+        <div class="card">
+          <h3>How to set it</h3>
+          <ol>
+            <li>Open Bronson's First Agent in your browser.</li>
+            <li>Find the <strong>Heartbeat</strong>, <strong>Goal Pulse</strong>, or similar panel.</li>
+            <li>Set interval to <code>1 minute</code> or <code>60 seconds</code>.</li>
+            <li>Use a harmless local goal from the list below.</li>
+            <li>Start the heartbeat.</li>
+            <li>Watch the trace/log. Stop it after a few cycles.</li>
+          </ol>
+        </div>
+
+        <div class="card warnbox">
+          <h3>Important demo rule</h3>
+          <p>
+            One-minute heartbeat is for seeing the machine move. Do not give it external powers.
+            No email sending, no social posting, no purchases, no public outreach, no destructive file cleanup.
+          </p>
+        </div>
+      </div>
+
+      <div class="prompt-grid" style="margin-top:14px">
+        <div class="prompt-card">
+          <h3>Heartbeat demo: lab notebook</h3>
+          <div class="prompt-text">Heartbeat goal: every pulse, add one short entry to heartbeat_demo_log.md saying the time, what you inspected, and the next tiny safe step. Do not contact anyone. Do not use the internet. Stop after 5 useful entries.</div>
+          <button class="btn good" data-copy="Heartbeat goal: every pulse, add one short entry to heartbeat_demo_log.md saying the time, what you inspected, and the next tiny safe step. Do not contact anyone. Do not use the internet. Stop after 5 useful entries.">Copy prompt</button>
+          <div class="copy-ok"></div>
+        </div>
+
+        <div class="prompt-card">
+          <h3>Heartbeat demo: improve one file</h3>
+          <div class="prompt-text">Heartbeat goal: improve README_notes.md one tiny section at a time. On each pulse, make at most one small edit, record what changed, and stop after 5 pulses.</div>
+          <button class="btn good" data-copy="Heartbeat goal: improve README_notes.md one tiny section at a time. On each pulse, make at most one small edit, record what changed, and stop after 5 pulses.">Copy prompt</button>
+          <div class="copy-ok"></div>
+        </div>
+
+        <div class="prompt-card">
+          <h3>Heartbeat demo: skill practice</h3>
+          <div class="prompt-text">Heartbeat goal: practice using the Skill Finder safely. On each pulse, choose one harmless built-in skill, explain when it helps, and append the note to skill_practice.md. Stop after 5 pulses.</div>
+          <button class="btn good" data-copy="Heartbeat goal: practice using the Skill Finder safely. On each pulse, choose one harmless built-in skill, explain when it helps, and append the note to skill_practice.md. Stop after 5 pulses.">Copy prompt</button>
+          <div class="copy-ok"></div>
+        </div>
+
+        <div class="prompt-card">
+          <h3>Heartbeat demo: local research only</h3>
+          <div class="prompt-text">Heartbeat goal: inspect the local project files only. On each pulse, summarize one file's purpose in project_map.md. Do not use the internet. Stop after mapping 5 files.</div>
+          <button class="btn good" data-copy="Heartbeat goal: inspect the local project files only. On each pulse, summarize one file's purpose in project_map.md. Do not use the internet. Stop after mapping 5 files.">Copy prompt</button>
+          <div class="copy-ok"></div>
+        </div>
+      </div>
+    </section>
+
+
+    <section id="screenshots" class="wrap">
+      <h2 class="section-title">If stuck, paste or upload a screenshot to GPT</h2>
+      <p class="section-lead">This is the easiest support method. Send GPT a screenshot of the error, folder, Terminal, PowerShell, or browser page.</p>
+      <div class="three">
+        <div class="card">
+          <h3>Mac screenshot</h3>
+          <ol>
+            <li>Press <code>Command</code> + <code>Shift</code> + <code>4</code>.</li>
+            <li>Drag around the error or window.</li>
+            <li>A screenshot will appear on your Desktop.</li>
+            <li>Upload or drag that screenshot into ChatGPT.</li>
+          </ol>
+        </div>
+        <div class="card">
+          <h3>Windows screenshot</h3>
+          <ol>
+            <li>Press <code>Windows</code> + <code>Shift</code> + <code>S</code>.</li>
+            <li>Drag around the error or window.</li>
+            <li>The screenshot is copied.</li>
+            <li>Paste it into ChatGPT with <code>Ctrl</code> + <code>V</code>.</li>
+          </ol>
+        </div>
+        <div class="card">
+          <h3>In ChatGPT</h3>
+          <ol>
+            <li>Click the <strong>+</strong> button near the message box.</li>
+            <li>Choose <strong>Add photos & files</strong>, or drag/paste the screenshot.</li>
+            <li>Say: “Tell me exactly what to click or type next.”</li>
+          </ol>
+        </div>
+      </div>
+      <div class="btn-row" style="margin-top:14px"><button class="btn good" data-payload="I am stuck setting up Bronson&#x27;s First Agent / SoulAgentOS. Please help me from a screenshot. I will upload or paste a screenshot of my browser, folder, Terminal, PowerShell, or error message. Please look at the screenshot and tell me exactly what to click or type next. Voice-friendly directions please.">🎙 Ask GPT for screenshot help</button></div>
+    </section>
+
+    <section id="help" class="wrap">
+      <h2 class="section-title">Ask any question</h2>
+      <p class="section-lead">Click a help button below. It opens a ready-made prompt. Copy it into ChatGPT, or use ChatGPT voice mode and read/say the prompt.</p>
+      <div class="quick-grid">
+        <button class="quick-card" data-payload="I am trying to download Bronson&#x27;s First Agent / SoulAgentOS from GitHub. Please walk me through it slowly. I need to download this exact file: https://github.com/DormantOne/soulagent/releases/download/v0.13.1/SoulAgentOS-v0.13.zip. I am not technical. Tell me exactly what to click and what I should see. Voice-friendly directions please."><strong>Download help</strong><span>Exact GitHub download steps.</span></button>
+        <button class="quick-card" data-payload="I am setting up Bronson&#x27;s First Agent / SoulAgentOS. Please help me install Python. The guide recommends Python 3.13.x, 64-bit, stable installer. Python 3.14.x is also okay if that is what python.org offers, but I should avoid alpha, beta, rc, embeddable, and source-only downloads. Ask me whether I am on Mac or Windows, then give one step at a time. Voice-friendly directions please. After Python is installed, help me confirm it with python --version or python3 --version."><strong>Python help</strong><span>Install/check Python.</span></button>
+        <button class="quick-card" data-payload="I am setting up Bronson&#x27;s First Agent / SoulAgentOS. I have unzipped the folder and need help opening Terminal or PowerShell in the exact project folder. Please guide me slowly, one step at a time. On Mac, explain the &#x27;cd &#x27; then drag-folder-into-Terminal method. On Windows, explain clicking the folder address bar, typing powershell, and pressing Enter. Voice-friendly directions please."><strong>Terminal help</strong><span>Open the right folder.</span></button>
+        <button class="quick-card" data-payload="I am setting up Bronson&#x27;s First Agent / SoulAgentOS. I need to install requirements from requirements.txt. Please guide me through running pip install -r requirements.txt or pip3 install -r requirements.txt from the project folder. If there is an error, ask me to paste the error text or upload a screenshot. Voice-friendly directions please."><strong>Install help</strong><span>Run pip requirements.</span></button>
+        <button class="quick-card" data-payload="I am setting up Bronson&#x27;s First Agent / SoulAgentOS. I need to start the app by running python run.py or python3 run.py from inside the project folder, then open http://localhost:5007/ in my browser. Please guide me slowly. If it fails, ask me to paste the terminal error or upload a screenshot. Voice-friendly directions please."><strong>Run help</strong><span>Start localhost app.</span></button>
+        <button class="quick-card" data-payload="I have opened Bronson&#x27;s First Agent / SoulAgentOS in my browser. Please help me run the first safe test: &#x27;Write a tiny Python program that prints hello, run it, and show me stdout.&#x27; Explain what success should look like, and what to do if it fails. Ask me to upload a screenshot if I am confused. Voice-friendly directions please."><strong>First test help</strong><span>Print hello.</span></button>
+        <button class="quick-card" data-payload="I am stuck setting up Bronson&#x27;s First Agent / SoulAgentOS. Please help me from a screenshot. I will upload or paste a screenshot of my browser, folder, Terminal, PowerShell, or error message. Please look at the screenshot and tell me exactly what to click or type next. Voice-friendly directions please."><strong>Screenshot help</strong><span>Paste/upload screenshot.</span></button>
+        <button class="quick-card" data-payload="Bronson&#x27;s First Agent / SoulAgentOS failed. I have a Biopsy button. Please tell me how to export a Biopsy JSON and what to paste/upload so someone can diagnose it. Voice-friendly directions please."><strong>Biopsy help</strong><span>Export failure report.</span></button>
+      </div>
+    </section>
+
+    <section id="safety" class="wrap">
+      <h2 class="section-title">Safety rules</h2>
+      <div class="badbox">
+        <h3 style="margin-top:0">This is an experimental local agent lab</h3>
+        <ul>
+          <li>Do not use it to send emails automatically.</li>
+          <li>Do not use it for money, medical, legal, or public outreach decisions without human review.</li>
+          <li>Do not paste private secrets unless you understand where they are stored.</li>
+          <li>Do not give it uncontrolled external powers.</li>
+          <li>Trust the Lab Bench, stdout/stderr, files, and Biopsy more than confident prose.</li>
+        </ul>
+        <div class="btn-row"><button class="btn warn" data-payload="I am using Bronson&#x27;s First Agent / SoulAgentOS. Please explain safe use in plain language: local workspace only, don&#x27;t send emails automatically, don&#x27;t use it for money/medical/legal decisions, and use Biopsy when it fails. Voice-friendly directions please.">🎙 Ask GPT to explain safe use</button></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap">Bronson's First Agent · SoulAgentOS v0.13 · easy setup page</footer>
+
+  <div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal">
+      <div class="modal-header">
+        <div>
+          <h3 id="modalTitle">Ask ChatGPT for help</h3>
+          <p class="mini">Copy this payload into ChatGPT. In voice mode, say: “Please walk me through this slowly.”</p>
+        </div>
+        <button class="x" id="closeModal" aria-label="Close">×</button>
+      </div>
+      <textarea id="payloadText"></textarea>
+      <div class="btn-row" style="margin-top:12px">
+        <button class="btn primary" id="copyPayload">Copy payload</button>
+        <a class="btn" id="openChatGPT" href="https://chatgpt.com/" target="_blank" rel="noopener">Open ChatGPT</a>
+      </div>
+      <div class="copy-status" id="copyStatus"></div>
+      <div class="note" style="margin-top:12px">
+        Screenshot method: upload or paste a screenshot of the error, then paste this payload.
+        Ask GPT: “Tell me exactly what to click or type next.”
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const backdrop = document.getElementById('modalBackdrop');
+    const payloadText = document.getElementById('payloadText');
+    const closeModal = document.getElementById('closeModal');
+    const copyPayload = document.getElementById('copyPayload');
+    const openChatGPT = document.getElementById('openChatGPT');
+    const copyStatus = document.getElementById('copyStatus');
+
+    function openPayload(payload) {
+      payloadText.value = payload;
+      copyStatus.textContent = '';
+      openChatGPT.href = 'https://chatgpt.com/?q=' + encodeURIComponent(payload);
+      backdrop.classList.add('show');
+      setTimeout(() => payloadText.focus(), 50);
+    }
+
+    document.querySelectorAll('[data-payload]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        openPayload(btn.getAttribute('data-payload'));
+      });
+    });
+
+    closeModal.addEventListener('click', () => backdrop.classList.remove('show'));
+    backdrop.addEventListener('click', (e) => {
+      if (e.target === backdrop) backdrop.classList.remove('show');
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') backdrop.classList.remove('show');
+    });
+
+    document.querySelectorAll('[data-copy]').forEach(btn => {
+      btn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        const text = btn.getAttribute('data-copy');
+        const status = btn.parentElement.querySelector('.copy-ok');
+        try {
+          await navigator.clipboard.writeText(text);
+          if (status) status.textContent = 'Copied. Paste it into the agent.';
+        } catch (err) {
+          const temp = document.createElement('textarea');
+          temp.value = text;
+          document.body.appendChild(temp);
+          temp.select();
+          document.execCommand('copy');
+          document.body.removeChild(temp);
+          if (status) status.textContent = 'Copied. Paste it into the agent.';
+        }
+      });
+    });
+
+    copyPayload.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(payloadText.value);
+        copyStatus.textContent = 'Copied. Now paste it into ChatGPT.';
+      } catch (err) {
+        payloadText.select();
+        document.execCommand('copy');
+        copyStatus.textContent = 'Copied, or selected for copying. Now paste it into ChatGPT.';
+      }
+    });
+  </script>
+</body>
+</html>
